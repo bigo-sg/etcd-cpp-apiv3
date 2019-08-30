@@ -27,8 +27,20 @@ etcdv3::AsyncWatchAction::AsyncWatchAction(etcdv3::ActionParameters param)
   }
 
   watch_req.mutable_create_request()->CopyFrom(watch_create_req);
-  stream->Write(watch_req, (void*)"write");
-  stream->Read(&reply, (void*)this);
+  //refer to: https://github.com/nokia/etcd-cpp-apiv3/issues/5
+  gpr_timespec deadline;
+  deadline.clock_type = GPR_TIMESPAN;
+  deadline.tv_sec = 0;
+  deadline.tv_nsec = 10000000;
+  void* got_tag = NULL;
+  bool ok = false;
+  auto status = cq_.AsyncNext(&got_tag, &ok, deadline);
+
+  if (status != CompletionQueue::SHUTDOWN)
+  {
+    stream->Write(watch_req, (void*)"write");
+    stream->Read(&reply, (void*)this);
+  }
 }
 
 
