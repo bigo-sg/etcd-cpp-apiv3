@@ -58,14 +58,13 @@ ${CMAKE_CURRENT_LIST_DIR}/Value.cpp
 ${CMAKE_CURRENT_LIST_DIR}/SyncClient.cpp
 ${CMAKE_CURRENT_LIST_DIR}/Watcher.cpp)
 
-
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 target_link_libraries(etcd-cpp-api 
         cpprestsdk::cpprest
-        boost_system 
+        Boost::system
         ssl 
         crypto 
-        protobuf 
+        protobuf::libprotobuf 
         gRPC::grpc++)
 
 install (TARGETS etcd-cpp-api EXPORT etcd-cpp-api DESTINATION lib)
