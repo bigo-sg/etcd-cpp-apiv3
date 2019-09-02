@@ -2,6 +2,7 @@ function(KV_protobuf_generate_cpp SRCS ROOT PROTO_PATH PROTO_NAME)
 add_custom_command(
     OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/${PROTO_PATH}/${PROTO_NAME}.pb.h"
         "${CMAKE_CURRENT_BINARY_DIR}/${PROTO_PATH}/${PROTO_NAME}.pb.cc"
+    COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_BINARY_DIR}/${PROTO_PATH}
     COMMAND  ${PROTOBUF_PROTOC_EXECUTABLE}
     ARGS --cpp_out=${CMAKE_CURRENT_BINARY_DIR}/${PROTO_PATH}
         -I ${ROOT}/${PROTO_PATH}
@@ -16,6 +17,7 @@ function(KV_protobuf_generate_grpc_cpp SRCS ROOT PROTO_PATH PROTO_NAME)
 add_custom_command(
     OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/${PROTO_PATH}/${PROTO_NAME}.grpc.pb.h"
         "${CMAKE_CURRENT_BINARY_DIR}/${PROTO_PATH}/${PROTO_NAME}.grpc.pb.cc"
+    COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_BINARY_DIR}/${PROTO_PATH}
     COMMAND  ${PROTOBUF_PROTOC_EXECUTABLE}
     ARGS --grpc_out=${CMAKE_CURRENT_BINARY_DIR}/${PROTO_PATH}
         --plugin=protoc-gen-grpc=$<TARGET_FILE:gRPC::grpc_cpp_plugin>
