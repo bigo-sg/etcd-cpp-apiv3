@@ -1,1 +1,9 @@
-include("${CMAKE_CURRENT_LIST_DIR}/etcd-cpp-apiTargets.cmake")
+get_filename_component(brec_etcd_apiv3_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
+include(CMakeFindDependencyMacro)
+
+if (NOT ${CONAN_ETCD-CPP-APIV3_ROOT} STREQUAL "")
+    include("${CONAN_ETCD-CPP-APIV3_ROOT}/lib/cmake/etcd-cpp-api/etcd-cpp-apiTargets.cmake")
+else()
+    set(_basis_dir ${brec_etcd_apiv3_CMAKE_DIR}/brec_etcd_apiTargets.cmake)
+endif()
+
